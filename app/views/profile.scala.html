@@ -1,0 +1,55 @@
+
+@(user: controllers.User)(implicit request: play.api.mvc.RequestHeader)
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+@files()
+</head>
+<body>
+
+<h1 class=" text-center text-info"> Welcome  @request.session.get("connected")</h1><br><br>
+
+<h1 class=" text-center text-info"> USER DETAILS!!!!!</h1><br><br>
+
+ <form >
+
+       <center>  <table class="table-striped text-center table-bordered">
+
+
+             <td class="col-md-4"><label>First Name </label></td> <td class="col-md-5"> <label>@user.firstName</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>Middle Name</label></td> <td class="col-md-5"> <label>@user.middleName</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>Last Name</label></td> <td class="col-md-5"> <label>@user.lastName</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>User Name</label></td> <td class="col-md-5"> <label>@user.userName</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>Mobile Number</label></td> <td class="col-md-5"> <label>@user.mobileNumber</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>Gender</label></td> <td class="col-md-5"> <label>@user.gender</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"><label>Age</label></td> <td class="col-md-5"> <label>@user.age</label></td>
+         </tr>
+         <tr>
+             <td class="col-md-4"> <label>Hobbies</label></td > <td class="col-md-5"> <label>@user.hobbies</label></td>
+         </tr>
+
+</table>
+<br><br>
+               <a href="/" class="btn-success btn-lg"> Home </a>
+                   <a href="/logout" class="btn-success btn-lg"> LogOut </a>
+       </center>
+ </form>
+
+
+</body>
+</html>

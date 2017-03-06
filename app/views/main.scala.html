@@ -1,0 +1,15 @@
+
+@(title: String)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title>@title</title>
+       @files()
+    </head>
+    <body>
+
+        @content()
+    </body>
+</html>

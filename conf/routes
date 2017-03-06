@@ -28,5 +28,6 @@ GET     /login                  controllers.HomeController.login
 
 POST     /profile                controllers.HomeController.loginSubmit
 
+
 GET     /logout                   controllers.HomeController.logout
 

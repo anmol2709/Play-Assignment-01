@@ -7,8 +7,8 @@
 
 </head>
 <body>
-<div class="container">
-    <div class="row"><h1 class="text-info text-center"> Please Sign Up To Continue </h1></div>
+<div class="container-fluid" style=" background-color:	#B0B0B0 ">
+    <div style="margin-left:4% ;"><div class="row"><h1 class="text-info text-center"> Please Sign Up To Continue </h1></div>
     <form method="post" action="@routes.HomeController.submit()">
         <br>
 
@@ -49,7 +49,7 @@
         <br>
 
         <div class=" row ">
-            <label > Password:*</label>
+            <label > Re-Enter Password:*</label>
             <input type="text" name="verifyPassword"required>
         </div>
 
@@ -91,6 +91,7 @@
             <input type="submit" class = "btn-success " value="SignUp">
         </div>
     </form>
+        </div>
     </div>
 </body>
 </html>

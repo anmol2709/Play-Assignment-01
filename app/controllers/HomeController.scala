@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import sun.security.util.Password
+import views.html
 import views.html.helper.form
 
 import scala.collection.mutable.ListBuffer
@@ -62,10 +63,13 @@ val formControl=new FormController
     processedForm.fold(formWithErrors => {
       BadRequest(" Error ")
     }, success => {
-
+if(!services.UserList.userList.map(x=>x.userName==user.userName).contains(true)){
       services.UserList.addUser(user)
       Ok(views.html.profile(user)).withSession("connected" -> user.userName)
-    })
+    }
+    else{
+      Ok(views.html.signUp())
+    }})
 
   }
 

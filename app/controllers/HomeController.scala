@@ -92,7 +92,7 @@ class HomeController @Inject()(formControl: FormController, service: AbstractUse
   }
 
   def disableUser = Action { implicit request =>
-    
+
     request.session.get("connected").map { sessionname =>
       val username = formControl.managementForm.bindFromRequest.get
       service.disable(username)

@@ -58,7 +58,7 @@ val formControl=new FormController
   }
 
   def upload = Action(parse.temporaryFile) { request =>
-    request.body.moveTo(new File("/home/knoldus/Desktop/Assignment-01/app/upload.jpg"))
+    request.body.moveTo(new File("/home/knoldus/Desktop/Assignment-01/app/1.jpg"))
     Ok("File uploaded")
   }
 

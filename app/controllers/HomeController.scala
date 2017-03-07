@@ -1,17 +1,14 @@
 package controllers
 
 import java.io.File
-import play.mvc.QueryStringBindable
-import models.{User, Login}
-import play.api.cache._
-import play.api.mvc.Results._
-import play.api.mvc._
 import javax.inject.Inject
 
+import models.{Login, User}
+import play.api.mvc._
 import services.AbstractUserService
 
 
-class HomeController@Inject()(formControl: FormController,service:AbstractUserService) extends Controller {
+class HomeController @Inject()(formControl: FormController, service: AbstractUserService) extends Controller {
 
 
   def index = Action {
@@ -23,18 +20,22 @@ class HomeController@Inject()(formControl: FormController,service:AbstractUserSe
   def loginSubmit = {
     Action { implicit request =>
       val userLogin: Login = formControl.loginForm.bindFromRequest.get
-      if (service.checkUser(userLogin.userName)) {
+      if (service.checkUser(userLogin.userName, userLogin.password)) {
         val foundUser = service.getUser(userLogin.userName)
-        Ok(views.html.profile(foundUser))
+        if (foundUser.isEnabled)
+          Ok(views.html.profile(foundUser)).withSession("connected" -> userLogin.userName)
+        else
+          Redirect(routes.HomeController.login()).flashing(
+            "error" -> "Account temporarily disabled")
       }
-
       else {
-        Ok(views.html.login())
+        Redirect(routes.HomeController.login()).flashing(
+          "error" -> "Invalid Details")
       }
     }
   }
 
-  def management = Action {
+  def management = Action { implicit request =>
 
     Ok(views.html.management(service.getList()))
   }
@@ -79,7 +80,7 @@ class HomeController@Inject()(formControl: FormController,service:AbstractUserSe
   }
 
   def enableUser = Action { implicit request =>
-    println("controller")
+
     request.session.get("connected").map { sessionname =>
       val username = formControl.managementForm.bindFromRequest.get
       service.enable(username)
@@ -91,6 +92,7 @@ class HomeController@Inject()(formControl: FormController,service:AbstractUserSe
   }
 
   def disableUser = Action { implicit request =>
+    
     request.session.get("connected").map { sessionname =>
       val username = formControl.managementForm.bindFromRequest.get
       service.disable(username)

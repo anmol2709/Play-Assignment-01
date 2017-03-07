@@ -1,4 +1,4 @@
-
+@()(implicit flash: Flash)
 <html lang="en">
 <head>
     @files()
@@ -8,8 +8,7 @@
 
 
 <div class="container" style="background-color:	#B0B0B0 ">
-    <div class="row text-center">
-    </div>
+    <center><h2 class="text-danger">@flash.get("error").getOrElse("")</h2></center>
     <div class="row">
         <div class=" col-md-4 col-md-offset-4">
             <h1 class="text-center login-title text-info">LOGIN PAGE</h1><br><br>

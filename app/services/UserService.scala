@@ -11,7 +11,9 @@ import scala.collection.mutable.ListBuffer
 class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
   cache.set("list",ListBuffer[User]())
   val userNew = User("Anmol", "", "Sarna", "anmol", "anmol", "anmol" ,true , true,"9971783971", "male", 24, "Cricket")
+  val userNew2 = User("Anmol", "", "Sarna", "anmolSarna", "anmol", "anmol" ,true , true,"9971783971", "male", 24, "Cricket")
   addUser(userNew)
+  addUser(userNew2)
 
 
   def addUser(user: User): Boolean = {
@@ -30,7 +32,7 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
 
   def getUser(name: String): User = {
     val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
-    if (checkUser(name)) {
+    if(userList.filter(x=>(x.userName==name)).length==1) {
 //      val user = cache.get[User](name).get
       userList.filter(x=>(x.userName==name))(0)
     } else
@@ -46,17 +48,17 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
     else true
   }
 
-  def checkUser(name: String): Boolean = {
+  def checkUser(name: String,password:String): Boolean = {
     val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
-    userList.filter(x=>(x.userName==name)).length==1
+    userList.filter(x=>(x.userName==name&&x.password==MD5.hash(password))).length==1
 
   }
+
    def getList():ListBuffer[User]={
      cache.get[ListBuffer[User]]("list").get
    }
 
   def enable(userName:String)={
-    println("service")
     val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
 
     val oldUser:User=userList.filter(_.userName==userName).head
@@ -68,6 +70,8 @@ true
   }
 
   def disable(userName:String)={
+
+
     val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
 
     val oldUser:User=userList.filter(_.userName==userName).head

@@ -2,6 +2,7 @@ package services
 
 import models.User
 import play.api.cache.CacheApi
+import sun.security.util.Password
 
 import scala.collection.mutable.ListBuffer
 
@@ -13,7 +14,7 @@ abstract class AbstractUserService(){
   def getUser(name:String):User
 
 
-  def checkUser(name:String):Boolean
+  def checkUser(name:String,password: String):Boolean
 
   def userExist(name:String):Boolean
 

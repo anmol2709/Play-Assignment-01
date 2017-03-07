@@ -11,7 +11,7 @@
 
 
 <div class="container-fluid" style=" background-color:	#B0B0B0 ">
-    <center><h2 class="text-danger">@flash.get("error").getOrElse("Welcome!")</h2></center>
+    <center><h2 class="text-danger">@flash.get("error").getOrElse("")</h2></center>
     <div style="margin-left:4% ;"><div class="row"><h1 class="text-info text-center"> Please Sign Up To Continue </h1></div>
     <form method="post" action="@routes.HomeController.submit()">
         <br>

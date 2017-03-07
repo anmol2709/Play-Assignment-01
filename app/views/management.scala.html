@@ -1,6 +1,6 @@
 @import play.mvc.QueryStringBindable
 @import scala.collection.mutable.ListBuffer
-@(userList:ListBuffer[User])
+@(userList:ListBuffer[User])(implicit request: play.api.mvc.RequestHeader)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,19 +11,26 @@
 <body><center><h1 class = "text-info"> MANAGING USERS!!!!!</h1></center>
 <div class="container">
     @for(user <- userList) {
+    @if(!(user.userName == request.session.get("connected"))){
     <div class = "row">
         <h3 > <div class="col-md-5">@user.userName</div></h3>
 
+        @if(!user.isEnabled){
+        <form class="form" method="post" action="/enable">
+            <input type="hidden"  name="username" value=@user.userName>
+           <div class="col-md-offset-1 col-md-2"><input type="submit" value="enable" class="btn-success ">  </div>
+        </form>
+            }else{
 
-        <form class="form" method="post" >
-            <input type="hidden" id="username" name="username" value=@user.userName>
-            <div class="col-md-offset-1 col-md-2"><a href="@routes.HomeController.enableUser" name = "enable" class="btn-success "> Enable </a> </div>
-            <div class=""col-md-2><a href="@routes.HomeController.disableUser" name="disable" class="btn-danger "> Disable </a></div>
+            <form class="form" method="post" action="/disable">
+                <input type="hidden"  name="username" value=@user.userName>
+
+            <div class=""col-md-2><input type="submit" value="disable" class="btn-danger ">  </div>
         </form>
 
         }
 </div>
-
+}}
 </div>
 </body>
 </html>

@@ -7,10 +7,6 @@ import play.api.mvc.{Request, Action, Controller}
 
 class FormController extends Controller{
 
-
-
-
-
   val userForm = Form(
     mapping(
       "firstName" -> nonEmptyText,

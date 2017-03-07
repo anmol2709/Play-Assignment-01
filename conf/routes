@@ -1,3 +1,4 @@
+
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
@@ -30,5 +31,12 @@ POST     /profile                controllers.HomeController.loginSubmit
 
 
 GET     /logout                   controllers.HomeController.logout
+
 POST    /upload                     controllers.HomeController.upload
+GET    /management                     controllers.HomeController.management
+
+POST     /enable                controllers.HomeController.enableUser
+POST     /disable                   controllers.HomeController.disableUser
+
+
 

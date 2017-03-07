@@ -1,5 +1,6 @@
 package controllers
 
+import models.{Login, User}
 import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc.{Request, Action, Controller}
@@ -18,6 +19,8 @@ class FormController extends Controller{
       "userName" -> nonEmptyText,
       "password" -> nonEmptyText,
       "verifyPassword"->nonEmptyText,
+      "isEnabled"->boolean,
+      "userRole"-> boolean,
       "mobileNumber" -> nonEmptyText,
       "gender" -> nonEmptyText,
       "age" -> number(min = 18, max = 75),
@@ -34,6 +37,11 @@ class FormController extends Controller{
     )(Login.apply)(Login.unapply)
   )
 
+  val managementForm = Form(
+    single(
+      "username" -> text
+    )
+  )
 
 
 

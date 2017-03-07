@@ -90,12 +90,22 @@
         <input type="checkbox" name="hobbies" value=" Football "> Football
         <input type="checkbox" name="hobbies" value=" Travelling "> Travelling
         </div>
+        <input type="hidden" name="userRole"
+               @if(play.Play.application().configuration().getString("user.role")=="admin"){
+               value=true
+        }
+        else{
+        value=false
+        }>
 <br>
+
+        <input type="hidden" name="isEnabled" value="true">
             <div class=" row text-center">
             <input type="submit" class = "btn-success " value="SignUp">
         </div>
 
     </form>
+
 
 
     </div>

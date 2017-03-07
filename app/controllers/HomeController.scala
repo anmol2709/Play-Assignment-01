@@ -1,25 +1,18 @@
 package controllers
 
 import java.io.File
-import javax.inject._
-import play.api._
-import play.api.data.Form
-import play.api.data.Forms._
+import play.mvc.QueryStringBindable
+import models.{User, Login}
+import play.api.cache._
 import play.api.mvc.Results._
 import play.api.mvc._
-import sun.security.util.Password
-import views.html
-import views.html.helper.form
+import javax.inject.Inject
 
-import scala.collection.mutable.ListBuffer
+import services.AbstractUserService
 
-case class User(firstName: String,middleName:String,lastName:String,userName:String,password: String,verifyPassword:String,mobileNumber:String    ,gender:String, age: Int,hobbies:String)
-case class Login(userName:String , password: String)
 
-@Singleton
-class HomeController @Inject() extends Controller {
+class HomeController@Inject()(formControl: FormController,service:AbstractUserService) extends Controller {
 
-val formControl=new FormController
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -27,32 +20,35 @@ val formControl=new FormController
   }
 
 
-
   def loginSubmit = {
     Action { implicit request =>
       val userLogin: Login = formControl.loginForm.bindFromRequest.get
-          if(services.UserList.checkUser(userLogin.userName,userLogin.password))
-      {       val foundUser=services.UserList.getUser(userLogin.userName,userLogin.password)
-        Ok(views.html.profile(foundUser)).withSession("connected" -> foundUser.userName)
+      if (service.checkUser(userLogin.userName)) {
+        val foundUser = service.getUser(userLogin.userName)
+        Ok(views.html.profile(foundUser))
       }
 
-        else {
-          Ok(views.html.login())      }
+      else {
+        Ok(views.html.login())
+      }
     }
   }
 
+  def management = Action {
 
+    Ok(views.html.management(service.getList()))
+  }
 
-    def signUp= Action {implicit request=>
-      Ok(views.html.signUp())
-    }
+  def signUp = Action { implicit request =>
+    Ok(views.html.signUp())
+  }
 
-  def login= Action {implicit request=>
+  def login = Action { implicit request =>
     Ok(views.html.login())
   }
 
 
-  def logout= Action {implicit request=>
+  def logout = Action { implicit request =>
 
     Ok(views.html.index("New Session")).withNewSession
 
@@ -63,23 +59,47 @@ val formControl=new FormController
     Ok("File uploaded")
   }
 
+
   def submit = Action { implicit request =>
     val processedForm = formControl.userForm.bindFromRequest
     val user: User = formControl.userForm.bindFromRequest.get
     processedForm.fold(formWithErrors => {
       BadRequest(" Error ")
     }, success => {
-if(!services.UserList.userList.map(x=>x.userName==user.userName).contains(true)){
-      services.UserList.addUser(user)
-      Ok(views.html.profile(user)).withSession("connected" -> user.userName)
-    }
-    else{
-      Ok(views.html.signUp())
-    }})
+      if (service.userExist(user.userName) == true) {
+        service.addUser(user)
+        Ok(views.html.profile(user)).withSession("connected" -> user.userName)
+      }
+      else {
+        Redirect(routes.HomeController.signUp()).flashing(
+          "error" -> "User Name Exists")
+      }
+    })
 
   }
 
+  def enableUser = Action { implicit request =>
+    println("controller")
+    request.session.get("connected").map { sessionname =>
+      val username = formControl.managementForm.bindFromRequest.get
+      service.enable(username)
+      Ok(views.html.profile(service.getUser(sessionname))).withSession("connected" -> sessionname)
+    }.getOrElse {
+      Unauthorized("Oops, you are not connected")
+    }
+
+  }
+
+  def disableUser = Action { implicit request =>
+    request.session.get("connected").map { sessionname =>
+      val username = formControl.managementForm.bindFromRequest.get
+      service.disable(username)
+      Ok(views.html.profile(service.getUser(sessionname))).withSession("connected" -> sessionname)
+    }.getOrElse {
+      Unauthorized("Oops, you are not connected")
+
+    }
+  }
 
 }
-
 

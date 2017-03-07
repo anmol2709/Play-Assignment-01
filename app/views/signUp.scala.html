@@ -1,4 +1,4 @@
-@()
+@()(implicit flash: Flash)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,11 @@
 
 </head>
 <body>
+
+
+
 <div class="container-fluid" style=" background-color:	#B0B0B0 ">
+    <center><h2 class="text-danger">@flash.get("error").getOrElse("Welcome!")</h2></center>
     <div style="margin-left:4% ;"><div class="row"><h1 class="text-info text-center"> Please Sign Up To Continue </h1></div>
     <form method="post" action="@routes.HomeController.submit()">
         <br>
@@ -74,7 +78,7 @@
         <br>
 
         <div class="row" >
-            <label > Age:*</label>
+            <label > Age(18-54):*</label>
             <input  type="text" name="age" required>
 
         </div>

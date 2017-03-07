@@ -30,5 +30,5 @@ POST     /profile                controllers.HomeController.loginSubmit
 
 
 GET     /logout                   controllers.HomeController.logout
-POST    /signUp                     controllers.HomeController.upload
+POST    /upload                     controllers.HomeController.upload
 

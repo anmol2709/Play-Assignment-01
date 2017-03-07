@@ -5,6 +5,7 @@ import javax.inject._
 import play.api._
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.mvc.Results._
 import play.api.mvc._
 import sun.security.util.Password
 import views.html
@@ -42,7 +43,7 @@ val formControl=new FormController
 
 
 
-    def signUp= Action {
+    def signUp= Action {implicit request=>
       Ok(views.html.signUp())
     }
 
@@ -58,7 +59,7 @@ val formControl=new FormController
   }
 
   def upload = Action(parse.temporaryFile) { request =>
-    request.body.moveTo(new File("/home/knoldus/Desktop/Assignment-01/app/upload.jpg"))
+    request.body.moveTo(new File("/home/knoldus/Desktop/Assignment-01/app/1.jpg"))
     Ok("File uploaded")
   }
 

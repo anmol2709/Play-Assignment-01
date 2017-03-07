@@ -1,4 +1,6 @@
 
+import java.lang.ProcessBuilder
+import controllers.routes
 import play.api.http.HttpErrorHandler
 import play.api.mvc._
 import play.api.mvc.Results._
@@ -18,7 +20,8 @@ class ErrorHandler extends HttpErrorHandler {
   }
   def onServerError(request: RequestHeader, exception: Throwable) = {
     Future.successful(
-      Ok(views.html.signUp())
+      Redirect(routes.HomeController.signUp()).flashing(
+        "error" -> "Please check Values")
     )
   }
 }

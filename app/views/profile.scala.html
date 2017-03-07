@@ -45,15 +45,19 @@
 
 </table>
 <br><br>
-               <a href="/" class="btn-success btn-lg"> Home </a>
-                   <a href="/logout" class="btn-success btn-lg"> LogOut </a>
+
        </center>
  </form>
+<center>
 <form method ="post" action = "@routes.HomeController.upload" enctype ="multipart/form-data">
 
-    <input type="file" name="picture"> <input type="submit" value="Upload Picture" class="btn-info">
+    <input type="file" name="picture"> <br><input type="submit" value="Upload Picture" class="btn-info">
 
 </form>
 
+    <br><br>
+<a href="/" class="btn-success btn-lg"> Home </a>
+<a href="/logout" class="btn-success btn-lg"> LogOut </a>
+</center>
 </body>
 </html>

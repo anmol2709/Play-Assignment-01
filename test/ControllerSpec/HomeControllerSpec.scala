@@ -1,9 +1,11 @@
+package ControllerSpec
+
 import org.scalatestplus.play._
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
 
-class ControllerSpec extends PlaySpec with OneAppPerTest {
+class HomeControllerSpec extends PlaySpec with OneAppPerTest {
 
   "HomeController" should {
 
@@ -37,19 +39,10 @@ class ControllerSpec extends PlaySpec with OneAppPerTest {
       contentType(home) mustBe Some("text/html")
       contentAsString(home) must include("MANAGING USERS!!!!!")
     }
-  }
-
-
-
-  "CountController" should {
-
-    "return an increasing count" in {
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "0"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "1"
-      contentAsString(route(app, FakeRequest(GET, "/count")).get) mustBe "2"
-    }
-
 
   }
+
+
+
 
 }

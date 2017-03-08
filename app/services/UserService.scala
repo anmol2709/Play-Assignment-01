@@ -17,10 +17,9 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
 
 
   def addUser(user: User): Boolean = {
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
     println("value: "+user.userRole)
     try{val encryptedUser=user.copy(password = MD5.hash(user.password))
-//    cache.set(user.userName, encryptedUser)
     userList.append(encryptedUser)
     cache.set("list",userList)
     true}
@@ -31,9 +30,9 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
 
 
   def getUser(name: String): User = {
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
     if(userList.filter(x=>(x.userName==name)).length==1) {
-//      val user = cache.get[User](name).get
+
       userList.filter(x=>(x.userName==name))(0)
     } else
       userNew
@@ -41,7 +40,7 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
   }
 
   def userExist(name:String):Boolean={
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
 
     if(userList.filter(x=>(x.userName==name)).length==1)
       false
@@ -49,19 +48,19 @@ class UserService@Inject() (cache: CacheApi) extends AbstractUserService {
   }
 
   def checkUser(name: String,password:String): Boolean = {
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
     userList.filter(x=>(x.userName==name&&x.password==MD5.hash(password))).length==1
 
   }
 
    def getList():ListBuffer[User]={
-     cache.get[ListBuffer[User]]("list").get
+     cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
    }
 
   def enable(userName:String)={
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
 
-    val oldUser:User=userList.filter(_.userName==userName).head
+    val oldUser:User=userList.filter(_.userName==userName)(0)
     val newUser=oldUser.copy(isEnabled=true)
     userList-=oldUser
     userList+=newUser
@@ -72,9 +71,9 @@ true
   def disable(userName:String)={
 
 
-    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").get
+    val userList:ListBuffer[User] = cache.get[ListBuffer[User]]("list").getOrElse(ListBuffer[User]())
 
-    val oldUser:User=userList.filter(_.userName==userName).head
+    val oldUser:User=userList.filter(_.userName==userName)(0)
     val newUser=oldUser.copy(isEnabled=false)
     userList-=oldUser
     userList+=newUser

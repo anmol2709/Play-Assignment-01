@@ -12,7 +12,7 @@ class HomeController @Inject()(formControl: FormController, service: AbstractUse
 
 
   def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+    Ok(views.html.index())
 
   }
 
@@ -51,7 +51,7 @@ class HomeController @Inject()(formControl: FormController, service: AbstractUse
 
   def logout = Action { implicit request =>
 
-    Ok(views.html.index("New Session")).withNewSession
+    Ok(views.html.index()).withNewSession
 
   }
 

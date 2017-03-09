@@ -8,8 +8,8 @@ import play.api.mvc._
 import services.AbstractUserService
 
 
-class HomeController @Inject()(formControl: FormController, service: AbstractUserService) extends Controller {
-
+class HomeController @Inject()( service: AbstractUserService) extends Controller {
+val formControl= new FormController()
 
   def index = Action {
     Ok(views.html.index())

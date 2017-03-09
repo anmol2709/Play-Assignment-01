@@ -21,6 +21,29 @@ class RouteSpec extends PlaySpec with OneAppPerTest {
       }
 
 
+    "respond to the signUp Action" in new App() {
+      val Some(result) = route(app, FakeRequest(GET, "/signup"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("Please Sign Up To Continue")
+    }
+
+    "respond to the signIn Action" in new App() {
+      val Some(result) = route(app, FakeRequest(GET, "/login"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("LOGIN PAGE")
+    }
+
+    "respond to the Signup" in new App() {
+      val Some(result) = route(app, FakeRequest(POST, "/registeredProfile"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("USER DETAILS!")
+    }
 
   }
 }

@@ -12,8 +12,8 @@ class UserService@Inject() (cache: CacheApi,mD5: MD5) extends AbstractUserServic
   cache.set("list", ListBuffer[User]())
   val userNew = User("Anmol", "", "Sarna", "anmol", "anmol", "anmol", true, true, "9971783971", "male", 24, "Cricket")
   val userNew2 = User("Anmol", "", "Sarna", "anmolSarna", "anmol", "anmol", true, true, "9971783971", "male", 24, "Cricket")
-  //  addUser(userNew)
-  //  addUser(userNew2)
+    addUser(userNew)
+    addUser(userNew2)
 
 
   def addUser(user: User): Boolean = {

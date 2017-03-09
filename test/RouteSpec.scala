@@ -45,5 +45,29 @@ class RouteSpec extends PlaySpec with OneAppPerTest {
       contentAsString(result) must contain("USER DETAILS!")
     }
 
+
+    "respond to the Proile visit" in new App() {
+      val Some(result) = route(app, FakeRequest(POST, "/profile"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("USER DETAILS!")
+    }
+
+    "respond to the enable user route" in new App() {
+      val Some(result) = route(app, FakeRequest(POST, "/enable"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("USER DETAILS!")
+    }
+
+    "respond to the disable user route" in new App() {
+      val Some(result) = route(app, FakeRequest(POST, "/disable"))
+      status(result) mustBe OK
+      contentType(result) mustBe ("text/html")
+      charset(result) mustBe ("utf-8")
+      contentAsString(result) must contain("USER DETAILS!")
+    }
   }
 }

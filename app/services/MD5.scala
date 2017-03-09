@@ -1,6 +1,6 @@
 package services
 
-object MD5 {
+class MD5 {
   def hash(password: String) = {
     val m = java.security.MessageDigest.getInstance("MD5")
     val b = password.getBytes("UTF-8")
